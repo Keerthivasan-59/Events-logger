@@ -1,0 +1,17 @@
+.mainContainer {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.container {
+  width: 90vw;
+  display: grid;
+  grid-template-columns: 2fr 1fr;
+  gap: 30px;
+}
+
+.posts {
+  grid-column-start: 1;
+  grid-column-end: 2;
+}
