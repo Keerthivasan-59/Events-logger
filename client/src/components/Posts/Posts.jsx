@@ -1,4 +1,4 @@
-import React, { useContext } from "react";
+import React, { useContext, useEffect } from "react";
 import Post from "./Post/Post";
 import { PostsContext } from "../../context/postContext";
 import "./Posts.css";
@@ -8,7 +8,7 @@ const Posts = () => {
   console.log(posts);
   return (
     <div className="postsContainer">
-      {!posts
+      {!posts.length
         ? "Loading"
         : posts?.map((post) => (
             <div>

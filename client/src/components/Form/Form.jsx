@@ -17,7 +17,7 @@ const Form = () => {
   const handleSubmit = async (e) => {
     e.preventDefault();
     const { data } = await createPost("http://localhost:5000/posts", postData);
-    setPosts({ ...posts, data });
+    setPosts((prev)=> [...prev,data]);
     console.log(posts);
     clear();
   };
