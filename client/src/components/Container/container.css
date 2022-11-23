@@ -9,9 +9,15 @@
   display: grid;
   grid-template-columns: 2fr 1fr;
   gap: 30px;
+  padding: 0 100px;
 }
 
 .posts {
   grid-column-start: 1;
   grid-column-end: 2;
+}
+
+.containerForm{
+  grid-column-start: 2;
+  grid-column-end: 3;
 }

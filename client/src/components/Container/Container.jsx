@@ -10,7 +10,7 @@ const Container = () => {
         <div className="posts">
           <Posts />
         </div>
-        <div className="form">
+        <div className='containerform'>
           <Form />
         </div>
       </div>

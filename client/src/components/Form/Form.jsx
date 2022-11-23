@@ -1,29 +1,45 @@
-import React, { useState } from "react";
-import './form.css'
-import FileBase from 'react-file-base64'
+import React, { useState, useContext } from "react";
+import "./form.css";
+import FileBase from "react-file-base64";
+import { createPost } from "../../api";
+import { PostsContext } from "../../context/postContext";
 
 const Form = () => {
-  const [postData,setPostData]=useState({creator:'',title:'',tags:'',message:'',selectedFile:''})
-  const handleSubmit=()=>{
+  const [postData, setPostData] = useState({
+    creator: "",
+    title: "",
+    tags: "",
+    message: "",
+    selectedFile: "",
+  });
+  const [posts, setPosts] = useContext(PostsContext);
 
-  }
+  const handleSubmit = async (e) => {
+    e.preventDefault();
+    const { data } = await createPost("http://localhost:5000/posts", postData);
+    setPosts({ ...posts, data });
+    console.log(posts);
+    clear();
+  };
   // const handleChange=(e)=>{
   //   // setPostData((prev)=> ({...prev, [e.target.name]:e.target.value}))
   // }
-  const clear=()=>{
-
-  }
-  console.log(postData)
+  const clear = () => {
+    setPostData({
+      creator: "",
+      title: "",
+      tags: "",
+      message: "",
+      selectedFile: "",
+    });
+  };
   return (
-    <div className="Container">
-      <div className="header">Creating a Post</div>
-      <form
-        autoComplete="off"
-        noValidate
-        className="form"
-        onSubmit={handleSubmit}
-      >
-        <label htmlFor="creator" className="label">Creator: </label>
+    <div className="formContainer">
+      <div className="formHeader">Creating a Post</div>
+      <div className="form">
+        <label htmlFor="creator" className="label">
+          Creator:{" "}
+        </label>
         <input
           type="text"
           name="creator"
@@ -34,20 +50,20 @@ const Form = () => {
             setPostData({ ...postData, creator: e.target.value })
           }
         />
-        <label htmlFor="title"
-        className="label">Title: </label>
+        <label htmlFor="title" className="label">
+          Title:{" "}
+        </label>
         <input
           type="text"
           name="title"
           id="title"
           className="textInput"
           value={postData.title}
-          onChange={(e) =>
-            setPostData({ ...postData, title: e.target.value })
-          }
+          onChange={(e) => setPostData({ ...postData, title: e.target.value })}
         />
-        <label htmlFor="message"
-        className="label">Message: </label>
+        <label htmlFor="message" className="label">
+          Message:{" "}
+        </label>
         <textarea
           type="text"
           name="message"
@@ -58,23 +74,33 @@ const Form = () => {
             setPostData({ ...postData, message: e.target.value })
           }
         />
-        <label htmlFor="tags" className="label">Tags: </label>
+        <label htmlFor="tags" className="label">
+          Tags:{" "}
+        </label>
         <input
           type="text"
           name="tags"
           id="tags"
           className="textInput"
           value={postData.tags}
-          onChange={(e) =>
-            setPostData({ ...postData, tags: e.target.value })
-          }
+          onChange={(e) => setPostData({ ...postData, tags: e.target.value })}
         />
         <div className="fileInput">
-          <FileBase type='file' multiple={false} onDone={({base64})=> setPostData({...postData, selectedFile:base64}) } />
+          <FileBase
+            type="file"
+            multiple={false}
+            onDone={({ base64 }) =>
+              setPostData({ ...postData, selectedFile: base64 })
+            }
+          />
         </div>
-        <button className="submitButton" type="submit" >SUBMIT</button>
-        <button className="clearButton" onClick={clear} >CLEAR</button>
-      </form>
+        <button className="submitButton" onClick={handleSubmit}>
+          SUBMIT
+        </button>
+        <button className="clearButton" onClick={clear}>
+          CLEAR
+        </button>
+      </div>
     </div>
   );
 };
