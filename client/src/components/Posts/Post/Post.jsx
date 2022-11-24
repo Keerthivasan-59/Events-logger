@@ -12,9 +12,12 @@ import { likePost, deletePost } from "../../../api";
 import { useContext } from "react";
 import { PostsContext } from "../../../context/postContext";
 
-const Post = ({ post }) => {
+const Post = ({ post,setCurrentId }) => {
   const [posts, setPosts] = useContext(PostsContext);
 
+const handleEdit=()=>{
+  setCurrentId(post._id)
+}
   const handleLike =async () => {
     const {data}=await likePost("http://localhost:5000/posts", post._id);
     const newPosts=posts.map((post)=> post._id===data._id? data:post)
@@ -40,7 +43,7 @@ const Post = ({ post }) => {
           <div className="postTime">{moment(post.createdAt).fromNow()}</div>
         </div>
         <div className="editIcon pointer">
-          <FontAwesomeIcon icon={faEllipsis} />
+          <FontAwesomeIcon icon={faEllipsis} onClick={handleEdit} />
         </div>
       </div>
       <div className="postDetails">
@@ -67,7 +70,6 @@ const Post = ({ post }) => {
         </div>
       </div>
     </div>
-    // {post.title}
   );
 };
 

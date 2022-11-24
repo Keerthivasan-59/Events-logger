@@ -1,10 +1,10 @@
-import React, { useState, useContext } from "react";
+import React, { useState, useContext, useEffect } from "react";
 import "./form.css";
 import FileBase from "react-file-base64";
-import { createPost } from "../../api";
+import { createPost, updatePost } from "../../api";
 import { PostsContext } from "../../context/postContext";
 
-const Form = () => {
+const Form = ({ currentId, setCurrentId }) => {
   const [postData, setPostData] = useState({
     creator: "",
     title: "",
@@ -14,16 +14,35 @@ const Form = () => {
   });
   const [posts, setPosts] = useContext(PostsContext);
 
+  const post = currentId ? posts.find((p) => p._id === currentId) : null;
+
+  useEffect(() => {
+    if (currentId) setPostData(post);
+  }, [post]);
+
   const handleSubmit = async (e) => {
     e.preventDefault();
-    const { data } = await createPost("http://localhost:5000/posts", postData);
-    setPosts((prev)=> [...prev,data]);
+    if (currentId) {
+      const { data } = await updatePost(
+        "http://localhost:5000/posts",
+        currentId,postData
+      );
+      const newPosts = posts.map((post) =>
+        post._id === data._id ? data : post
+      );
+      setPosts([...newPosts]);
+      setCurrentId(null)
+    } else {
+      const { data } = await createPost(
+        "http://localhost:5000/posts",
+        postData
+      );
+      setPosts((prev) => [...prev, data]);
+    }
     console.log(posts);
     clear();
   };
-  // const handleChange=(e)=>{
-  //   // setPostData((prev)=> ({...prev, [e.target.name]:e.target.value}))
-  // }
+
   const clear = () => {
     setPostData({
       creator: "",
@@ -32,10 +51,11 @@ const Form = () => {
       message: "",
       selectedFile: "",
     });
+    setCurrentId(null)
   };
   return (
     <div className="formContainer">
-      <div className="formHeader">Creating a Post</div>
+      <div className="formHeader">{currentId? 'Editing':'Creating'} a Post</div>
       <div className="form">
         <label htmlFor="creator" className="label">
           Creator:{" "}
@@ -83,7 +103,9 @@ const Form = () => {
           id="tags"
           className="textInput"
           value={postData.tags}
-          onChange={(e) => setPostData({ ...postData, tags: e.target.value })}
+          onChange={(e) =>
+            setPostData({ ...postData, tags: e.target.value.split(",") })
+          }
         />
         <div className="fileInput">
           <FileBase

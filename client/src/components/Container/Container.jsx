@@ -3,15 +3,15 @@ import Form from '../Form/Form'
 import Posts from '../Posts/Posts'
 import './container.css'
 
-const Container = () => {
+const Container = ({currentId,setCurrentId}) => {
   return (
     <div className="mainContainer">
       <div className="container">
         <div className="posts">
-          <Posts />
+          <Posts currentId={currentId} setCurrentId={setCurrentId} />
         </div>
         <div className='containerform'>
-          <Form />
+          <Form currentId={currentId} setCurrentId={setCurrentId} />
         </div>
       </div>
     </div>

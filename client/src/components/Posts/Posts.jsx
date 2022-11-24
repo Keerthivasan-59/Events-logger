@@ -3,7 +3,7 @@ import Post from "./Post/Post";
 import { PostsContext } from "../../context/postContext";
 import "./Posts.css";
 
-const Posts = () => {
+const Posts = ({setCurrentId}) => {
   const [posts, setPosts] = useContext(PostsContext);
   console.log(posts);
   return (
@@ -12,7 +12,7 @@ const Posts = () => {
         ? "Loading"
         : posts?.map((post) => (
             <div>
-              <Post post={post} key={post._id} />
+              <Post post={post} key={post._id} setCurrentId={setCurrentId} />
             </div>
           ))}
     </div>
