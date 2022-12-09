@@ -7,7 +7,6 @@ export const PostsContext=createContext()
 export const PostsProvider= (props)=>{
   const [posts, setPosts] = useState([]);
   const { data, loading, error } = useFetch("http://localhost:5000/posts");
-console.log(data);
   useEffect(() => {
     setPosts(data);
   }, [data]);

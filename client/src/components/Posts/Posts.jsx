@@ -5,7 +5,6 @@ import "./Posts.css";
 
 const Posts = ({setCurrentId}) => {
   const [posts, setPosts] = useContext(PostsContext);
-  console.log(posts);
   return (
     <div className="postsContainer">
       {!posts.length

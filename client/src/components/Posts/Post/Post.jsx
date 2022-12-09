@@ -48,6 +48,9 @@ const handleEdit=()=>{
       </div>
       <div className="postDetails">
         <div className="postTags"> {post.tags?.map((tag) => `#${tag}`)}</div>
+        <div className="postTitle">
+          {post.title}
+        </div>
         <div className="postMessage">{post.message}</div>
       </div>
       <div className="postOptions">

@@ -40,12 +40,11 @@
 }
 
 .postDetails{
- padding: 15px;
+ padding: 5px 15px;
 }
 
 .postMessage{
- margin-left: 10px;
- font-size: 25px;
+ font-size: 20px;
  margin-top: 15px;
 }
 
@@ -57,4 +56,10 @@
 
 .pointer{
  cursor: pointer;
+}
+
+.postTitle{
+  margin-top: 10px;
+  font-size: 25px;
+  font-weight: bold;
 }
