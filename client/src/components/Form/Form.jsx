@@ -6,12 +6,12 @@ import { PostsContext } from "../../context/postContext";
 
 const Form = ({ currentId, setCurrentId }) => {
   const [postData, setPostData] = useState({
-    creator: "",
     title: "",
     tags: "",
     message: "",
     selectedFile: "",
   });
+  const user=JSON.parse(localStorage.getItem('profile'))
   const [posts, setPosts] = useContext(PostsContext);
 
   const post = currentId ? posts.find((p) => p._id === currentId) : null;
@@ -24,8 +24,8 @@ const Form = ({ currentId, setCurrentId }) => {
     e.preventDefault();
     if (currentId) {
       const { data } = await updatePost(
-        "http://localhost:5000/posts",
-        currentId,postData
+        currentId,
+        { ...postData, name: user?.result?.name }
       );
       const newPosts = posts.map((post) =>
         post._id === data._id ? data : post
@@ -34,8 +34,7 @@ const Form = ({ currentId, setCurrentId }) => {
       setCurrentId(null)
     } else {
       const { data } = await createPost(
-        "http://localhost:5000/posts",
-        postData
+        {...postData, name: user?.result?.name}
       );
       setPosts((prev) => [...prev, data]);
     }
@@ -45,7 +44,6 @@ const Form = ({ currentId, setCurrentId }) => {
 
   const clear = () => {
     setPostData({
-      creator: "",
       title: "",
       tags: "",
       message: "",
@@ -53,23 +51,21 @@ const Form = ({ currentId, setCurrentId }) => {
     });
     setCurrentId(null)
   };
+
+  if(!user?.result?.name){
+    return (
+      <div className="formContainer">
+        <div className="formHeader">
+          Please Sign In to create your own memories
+        </div>
+      </div>
+    );
+  }
+
   return (
     <div className="formContainer">
       <div className="formHeader">{currentId? 'Editing':'Creating'} a Post</div>
       <div className="form">
-        <label htmlFor="creator" className="label">
-          Creator:{" "}
-        </label>
-        <input
-          type="text"
-          name="creator"
-          id="creator"
-          className="textInput"
-          value={postData.creator}
-          onChange={(e) =>
-            setPostData({ ...postData, creator: e.target.value })
-          }
-        />
         <label htmlFor="title" className="label">
           Title:{" "}
         </label>

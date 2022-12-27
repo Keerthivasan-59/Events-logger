@@ -58,6 +58,10 @@
  cursor: pointer;
 }
 
+.blue{
+  color: blue;
+}
+
 .postTitle{
   margin-top: 10px;
   font-size: 25px;

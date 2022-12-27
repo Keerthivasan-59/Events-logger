@@ -89,4 +89,10 @@ button {
  margin-top: 10px;
  cursor: pointer;
  color: blueviolet;
+ padding: 0;
+ border: inherit;
+}
+
+button{
+    cursor: pointer;
 }
